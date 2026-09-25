@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+@keyframes saludo-mano {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(14deg); }
+  40% { transform: rotate(-8deg); }
+  60% { transform: rotate(14deg); }
+  80% { transform: rotate(-4deg); }
+}
+
+.icono-saludo {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: saludo-mano 1.4s ease-in-out infinite;
+}
