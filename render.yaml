@@ -9,7 +9,7 @@ services:
     name: yunque-usuarios
     runtime: node
     plan: free
-    buildCommand: corepack enable && cd Backend/usuarios && pnpm install --frozen-lockfile
+    buildCommand: cd Backend/usuarios && pnpm install --frozen-lockfile
     startCommand: cd Backend/usuarios && pnpm start
     healthCheckPath: /health
     envVars:
@@ -23,7 +23,7 @@ services:
     name: yunque-inventario
     runtime: node
     plan: free
-    buildCommand: corepack enable && cd Backend/inventario && pnpm install --frozen-lockfile
+    buildCommand: cd Backend/inventario && pnpm install --frozen-lockfile
     startCommand: cd Backend/inventario && pnpm start
     healthCheckPath: /health
     envVars:
@@ -39,7 +39,7 @@ services:
     name: yunque-ventas
     runtime: node
     plan: free
-    buildCommand: corepack enable && cd Backend/ventas && pnpm install --frozen-lockfile
+    buildCommand: cd Backend/ventas && pnpm install --frozen-lockfile
     startCommand: cd Backend/ventas && pnpm start
     healthCheckPath: /health
     envVars:
@@ -57,7 +57,7 @@ services:
     name: yunque-facturacion
     runtime: node
     plan: free
-    buildCommand: corepack enable && cd Backend/facturacion && pnpm install --frozen-lockfile
+    buildCommand: cd Backend/facturacion && pnpm install --frozen-lockfile
     startCommand: cd Backend/facturacion && pnpm start
     healthCheckPath: /health
     envVars:
@@ -73,7 +73,7 @@ services:
     name: yunque-compras
     runtime: node
     plan: free
-    buildCommand: corepack enable && cd Backend/compras && pnpm install --frozen-lockfile
+    buildCommand: cd Backend/compras && pnpm install --frozen-lockfile
     startCommand: cd Backend/compras && pnpm start
     healthCheckPath: /health
     envVars:
@@ -89,7 +89,7 @@ services:
     name: yunque-reportes
     runtime: node
     plan: free
-    buildCommand: corepack enable && cd Backend/reportes && pnpm install --frozen-lockfile
+    buildCommand: cd Backend/reportes && pnpm install --frozen-lockfile
     startCommand: cd Backend/reportes && pnpm start
     healthCheckPath: /health
     envVars:
@@ -110,7 +110,7 @@ services:
     name: yunque-gateway
     runtime: node
     plan: free
-    buildCommand: corepack enable && cd Backend/gateway && pnpm install --frozen-lockfile
+    buildCommand: cd Backend/gateway && pnpm install --frozen-lockfile
     startCommand: cd Backend/gateway && pnpm start
     healthCheckPath: /health
     envVars:
@@ -149,4 +149,3 @@ services:
           type: web
           name: yunque-reportes
           envVarKey: RENDER_EXTERNAL_URL
-
