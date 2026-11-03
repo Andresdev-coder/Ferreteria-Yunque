@@ -19,7 +19,7 @@ const crearSchema = z.object({
 // usuarios exige estar logueado como Administrador.
 async function condicionalAuth(req, res, next) {
   const [[{ total }]] = await pool.query('SELECT COUNT(*) AS total FROM usuarios');
-  req.esBootstrap = total === 0;
+  req.esBootstrap = Number(total) === 0;
   if (req.esBootstrap) return next();
   return verifyToken(req, res, () => requireRole('ADMINISTRADOR')(req, res, next));
 }
