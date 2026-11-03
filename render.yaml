@@ -18,6 +18,14 @@ services:
         sync: false
       - key: PG_SCHEMA
         value: yunque_usuarios
+      - key: SMTP_SERVICE
+        value: gmail
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: FRONTEND_URL
+        value: https://ferreteria-yunque.vercel.app
 
   - type: web
     name: yunque-inventario

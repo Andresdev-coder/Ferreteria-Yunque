@@ -7,6 +7,8 @@ import Ventas from "./pages/Ventas";
 import Inventario from "./pages/Inventario";
 import Pedidos from "./pages/Pedidos";
 import Facturas from "./pages/Facturas";
+import Configuracion from "./pages/Configuracion";
+import RecuperarContrasena from "./pages/RecuperarContrasena";
 
 // Exige haber iniciado sesión para ver el resto de la aplicación
 function Protegido({ children }) {
@@ -25,6 +27,8 @@ export default function App() {
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/recuperar-contrasena" element={<RecuperarContrasena />} />
+        <Route path="/restablecer-contrasena" element={<RecuperarContrasena restablecer />} />
         <Route
           element={
             <Protegido>
@@ -37,6 +41,7 @@ export default function App() {
           <Route path="inventario" element={<Inventario />} />
           <Route path="pedidos" element={<Pedidos />} />
           <Route path="facturas" element={<Facturas />} />
+          <Route path="configuracion" element={<Configuracion />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

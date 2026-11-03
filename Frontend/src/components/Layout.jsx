@@ -6,6 +6,7 @@ import {
   Hand,
   LayoutDashboard,
   LogOut,
+  Settings,
   Package,
   PackageCheck,
   Receipt,
@@ -31,6 +32,7 @@ const NAV = [
   { to: "/inventario", label: "Inventario", icono: Package },
   { to: "/pedidos", label: "Pedidos", icono: Truck },
   { to: "/facturas", label: "Facturas", icono: Receipt },
+  { to: "/configuracion", label: "Configuración", icono: Settings },
 ];
 
 function saludo() {

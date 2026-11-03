@@ -85,7 +85,7 @@ function migrateSql(sql) {
   }
   if (ignore) transformed += ' ON CONFLICT DO NOTHING';
   return transformed.replace(
-    /\b(FROM|JOIN|INTO|UPDATE|TABLE|REFERENCES)\s+(IF\s+NOT\s+EXISTS\s+)?(productos_cache|producto_ventas|ventas_resumen_diario|eventos_procesados|usuarios|productos|movimientos_stock|ventas|venta_items|proveedores|pedidos|pedido_items|numeracion|facturas|factura_items)\b/gi,
+    /\b(FROM|JOIN|INTO|UPDATE|TABLE|REFERENCES)\s+(IF\s+NOT\s+EXISTS\s+)?(productos_cache|producto_ventas|ventas_resumen_diario|eventos_procesados|password_reset_tokens|usuarios|productos|movimientos_stock|ventas|venta_items|proveedores|pedidos|pedido_items|numeracion|facturas|factura_items)\b/gi,
     (_, keyword, ifNotExists = '', table) => `${keyword} ${ifNotExists}"${schema}".${table}`
   );
 }

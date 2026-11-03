@@ -10,7 +10,7 @@ const ROLES = ['ADMINISTRADOR', 'VENDEDOR', 'BODEGUERO'];
 const crearSchema = z.object({
   nombre: z.string().trim().min(1),
   correo: z.string().trim().email(),
-  password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres.'),
+  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres.'),
   rol: z.enum(ROLES).optional(),
 });
 
