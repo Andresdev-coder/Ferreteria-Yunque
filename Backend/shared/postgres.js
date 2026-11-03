@@ -1,4 +1,13 @@
-const { Pool } = require('pg');
+const { createRequire } = require('node:module');
+const path = require('node:path');
+
+// This file lives in Backend/shared, while pg is installed separately in
+// each service package. Resolve the driver's dependency from the importing
+// service instead of from this shared directory.
+const serviceRequire = createRequire(
+  module.parent?.filename || path.join(process.cwd(), 'package.json')
+);
+const { Pool } = serviceRequire('pg');
 
 const schema = (process.env.PG_SCHEMA || process.env.DB_NAME || 'public').replace(/[^a-zA-Z0-9_]/g, '');
 if (!schema) throw new Error('PG_SCHEMA debe ser un nombre de esquema PostgreSQL válido');
