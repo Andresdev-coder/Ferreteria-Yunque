@@ -1,17 +1,7 @@
-const mysql = require('mysql2/promise');
-
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  timezone: 'Z',
-  waitForConnections: true,
-  connectionLimit: 10,
-});
+const { pool, initSchema: createSchema } = require('../../shared/postgres');
 
 async function initSchema() {
+  await createSchema();
   await pool.query(`
     CREATE TABLE IF NOT EXISTS proveedores (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,7 +51,7 @@ async function initSchema() {
       procesado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`);
 
-  console.log('MySQL listo: tablas de compras verificadas');
+  console.log('PostgreSQL listo: tablas de compras verificadas');
 }
 
 module.exports = { pool, initSchema };

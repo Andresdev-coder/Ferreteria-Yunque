@@ -75,7 +75,7 @@ router.post('/', async (req, res) => {
   try {
     await conn.beginTransaction();
     const [r] = await conn.query(
-      "INSERT INTO pedidos (id_proveedor, estado, origen) VALUES (?, 'CREADO', 'MANUAL')",
+      "INSERT INTO pedidos (id_proveedor, estado, origen) VALUES (?, 'CREADO', 'MANUAL') RETURNING id",
       [idProveedor]
     );
     idPedido = r.insertId;

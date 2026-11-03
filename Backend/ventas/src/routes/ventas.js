@@ -63,7 +63,7 @@ router.post('/', async (req, res) => {
   try {
     await conn.beginTransaction();
     const [r] = await conn.query(
-      'INSERT INTO ventas (cliente, vendedor, subtotal, impuesto, total) VALUES (?,?,?,?,?)',
+      'INSERT INTO ventas (cliente, vendedor, subtotal, impuesto, total) VALUES (?,?,?,?,?) RETURNING id',
       [cliente || null, vendedor, subtotal, impuesto, total]
     );
     idVenta = r.insertId;

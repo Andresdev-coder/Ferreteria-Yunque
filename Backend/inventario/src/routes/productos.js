@@ -39,14 +39,14 @@ router.post('/', async (req, res) => {
   const p = parsed.data;
   try {
     const [r] = await pool.query(
-      'INSERT INTO productos (codigo, nombre, categoria, precio, stock, stock_minimo) VALUES (?,?,?,?,?,?)',
+      'INSERT INTO productos (codigo, nombre, categoria, precio, stock, stock_minimo) VALUES (?,?,?,?,?,?) RETURNING id',
       [p.codigo, p.nombre, p.categoria, p.precio, p.stock, p.stock_minimo]
     );
     const producto = { id: r.insertId, ...p };
     publish('producto.creado', 'ProductoCreado', producto);
     res.status(201).json(producto);
   } catch (e) {
-    if (e.code === 'ER_DUP_ENTRY') return res.status(409).json({ error: 'El código ya existe' });
+    if (e.code === '23505') return res.status(409).json({ error: 'El código ya existe' });
     throw e;
   }
 });

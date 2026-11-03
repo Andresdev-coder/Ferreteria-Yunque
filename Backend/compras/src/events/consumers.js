@@ -52,7 +52,7 @@ async function onStockBajoMinimo(event) {
     // 3. Sugerencia: reponer hasta 3 veces el mínimo
     cantidad = Math.max(d.stockMinimo * 3 - d.stockActual, 1);
     const [r] = await conn.query(
-      "INSERT INTO pedidos (estado, origen) VALUES ('SUGERIDO', 'AUTOMATICO')"
+      "INSERT INTO pedidos (estado, origen) VALUES ('SUGERIDO', 'AUTOMATICO') RETURNING id"
     );
     idPedido = r.insertId;
     await conn.query(

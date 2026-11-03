@@ -1,6 +1,2 @@
-CREATE DATABASE IF NOT EXISTS yunque_usuarios;
-CREATE DATABASE IF NOT EXISTS yunque_ventas;
-CREATE DATABASE IF NOT EXISTS yunque_inventario;
-CREATE DATABASE IF NOT EXISTS yunque_facturacion;
-CREATE DATABASE IF NOT EXISTS yunque_compras;
-CREATE DATABASE IF NOT EXISTS yunque_reportes;
+-- PostgreSQL database bootstrap.
+-- Each microservice creates its own schema (PG_SCHEMA) and tables on startup.

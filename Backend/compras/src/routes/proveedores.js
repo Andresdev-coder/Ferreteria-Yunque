@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
   if (!parsed.success) return res.status(400).json({ error: 'El nombre del proveedor es obligatorio.' });
   const { nombre, telefono, correo } = parsed.data;
   const [r] = await pool.query(
-    'INSERT INTO proveedores (nombre, telefono, correo) VALUES (?,?,?)',
+    'INSERT INTO proveedores (nombre, telefono, correo) VALUES (?,?,?) RETURNING id',
     [nombre, telefono || null, correo || null]
   );
   res.status(201).json({ id: r.insertId, nombre, telefono: telefono || null, correo: correo || null });

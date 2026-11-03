@@ -1,17 +1,7 @@
-const mysql = require('mysql2/promise');
-
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  timezone: 'Z',
-  waitForConnections: true,
-  connectionLimit: 10,
-});
+const { pool, initSchema: createSchema } = require('../../shared/postgres');
 
 async function initSchema() {
+  await createSchema();
   // Copia local de los productos de Inventario, alimentada por eventos
   await pool.query(`
     CREATE TABLE IF NOT EXISTS productos_cache (
@@ -50,13 +40,9 @@ async function initSchema() {
     )`);
 
    // Número de factura, lo llena el evento FacturaGenerada
-  try {
-    await pool.query('ALTER TABLE ventas ADD COLUMN factura_numero VARCHAR(30) NULL');
-  } catch (e) {
-    if (e.code !== 'ER_DUP_FIELDNAME') throw e; // si ya existe, no pasa nada
-  }
+  await pool.query('ALTER TABLE ventas ADD COLUMN IF NOT EXISTS factura_numero VARCHAR(30) NULL');
 
-  console.log('MySQL listo: tablas de ventas verificadas');
+  console.log('PostgreSQL listo: tablas de ventas verificadas');
 }
 
 module.exports = { pool, initSchema };

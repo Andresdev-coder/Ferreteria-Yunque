@@ -36,12 +36,12 @@ router.post('/', condicionalAuth, async (req, res) => {
   const hash = await bcrypt.hash(password, 10);
   try {
     const [r] = await pool.query(
-      'INSERT INTO usuarios (nombre, correo, password_hash, rol) VALUES (?,?,?,?)',
+      'INSERT INTO usuarios (nombre, correo, password_hash, rol) VALUES (?,?,?,?) RETURNING id',
       [nombre, correo, hash, rol]
     );
     res.status(201).json({ id: r.insertId, nombre, correo, rol });
   } catch (e) {
-    if (e.code === 'ER_DUP_ENTRY') return res.status(409).json({ error: 'Ese correo ya está registrado.' });
+    if (e.code === '23505') return res.status(409).json({ error: 'Ese correo ya está registrado.' });
     throw e;
   }
 });

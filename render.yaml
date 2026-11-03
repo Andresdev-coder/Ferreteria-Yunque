@@ -1,0 +1,152 @@
+﻿envVarGroups:
+  - name: yunque-shared
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+
+services:
+  - type: web
+    name: yunque-usuarios
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && cd Backend/usuarios && pnpm install --frozen-lockfile
+    startCommand: cd Backend/usuarios && pnpm start
+    healthCheckPath: /health
+    envVars:
+      - fromGroup: yunque-shared
+      - key: DATABASE_URL
+        sync: false
+      - key: PG_SCHEMA
+        value: yunque_usuarios
+
+  - type: web
+    name: yunque-inventario
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && cd Backend/inventario && pnpm install --frozen-lockfile
+    startCommand: cd Backend/inventario && pnpm start
+    healthCheckPath: /health
+    envVars:
+      - fromGroup: yunque-shared
+      - key: DATABASE_URL
+        sync: false
+      - key: RABBIT_URL
+        sync: false
+      - key: PG_SCHEMA
+        value: yunque_inventario
+
+  - type: web
+    name: yunque-ventas
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && cd Backend/ventas && pnpm install --frozen-lockfile
+    startCommand: cd Backend/ventas && pnpm start
+    healthCheckPath: /health
+    envVars:
+      - fromGroup: yunque-shared
+      - key: DATABASE_URL
+        sync: false
+      - key: RABBIT_URL
+        sync: false
+      - key: PG_SCHEMA
+        value: yunque_ventas
+      - key: IMPUESTO_PORC
+        value: "19"
+
+  - type: web
+    name: yunque-facturacion
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && cd Backend/facturacion && pnpm install --frozen-lockfile
+    startCommand: cd Backend/facturacion && pnpm start
+    healthCheckPath: /health
+    envVars:
+      - fromGroup: yunque-shared
+      - key: DATABASE_URL
+        sync: false
+      - key: RABBIT_URL
+        sync: false
+      - key: PG_SCHEMA
+        value: yunque_facturacion
+
+  - type: web
+    name: yunque-compras
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && cd Backend/compras && pnpm install --frozen-lockfile
+    startCommand: cd Backend/compras && pnpm start
+    healthCheckPath: /health
+    envVars:
+      - fromGroup: yunque-shared
+      - key: DATABASE_URL
+        sync: false
+      - key: RABBIT_URL
+        sync: false
+      - key: PG_SCHEMA
+        value: yunque_compras
+
+  - type: web
+    name: yunque-reportes
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && cd Backend/reportes && pnpm install --frozen-lockfile
+    startCommand: cd Backend/reportes && pnpm start
+    healthCheckPath: /health
+    envVars:
+      - fromGroup: yunque-shared
+      - key: DATABASE_URL
+        sync: false
+      - key: RABBIT_URL
+        sync: false
+      - key: PG_SCHEMA
+        value: yunque_reportes
+      - key: VENTAS_URL
+        fromService:
+          type: web
+          name: yunque-ventas
+          envVarKey: RENDER_EXTERNAL_URL
+
+  - type: web
+    name: yunque-gateway
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && cd Backend/gateway && pnpm install --frozen-lockfile
+    startCommand: cd Backend/gateway && pnpm start
+    healthCheckPath: /health
+    envVars:
+      - fromGroup: yunque-shared
+      - key: RABBIT_URL
+        sync: false
+      - key: FRONT_ORIGIN
+        sync: false
+      - key: USUARIOS_URL
+        fromService:
+          type: web
+          name: yunque-usuarios
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: INVENTARIO_URL
+        fromService:
+          type: web
+          name: yunque-inventario
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: VENTAS_URL
+        fromService:
+          type: web
+          name: yunque-ventas
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: FACTURACION_URL
+        fromService:
+          type: web
+          name: yunque-facturacion
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: COMPRAS_URL
+        fromService:
+          type: web
+          name: yunque-compras
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: REPORTES_URL
+        fromService:
+          type: web
+          name: yunque-reportes
+          envVarKey: RENDER_EXTERNAL_URL
+

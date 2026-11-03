@@ -1,14 +1,16 @@
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: yunque-mysql
+  postgres:
+    image: postgres:16-alpine
+    container_name: yunque-postgres
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root1234
+      POSTGRES_USER: yunque
+      POSTGRES_PASSWORD: yunque123
+      POSTGRES_DB: yunque
     ports:
-      - "3307:3306"
+      - "5433:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
       - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
 
   rabbitmq:
@@ -25,5 +27,5 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
 
 volumes:
-  mysql_data:
+  postgres_data:
   rabbitmq_data:

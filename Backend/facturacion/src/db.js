@@ -1,24 +1,14 @@
-const mysql = require('mysql2/promise');
-
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  timezone: 'Z',
-  waitForConnections: true,
-  connectionLimit: 10,
-});
+const { pool, initSchema: createSchema } = require('../../shared/postgres');
 
 async function initSchema() {
+  await createSchema();
   // Contador de facturas: garantiza numeración consecutiva sin saltos
   await pool.query(`
     CREATE TABLE IF NOT EXISTS numeracion (
       serie VARCHAR(10) PRIMARY KEY,
       ultimo INT NOT NULL DEFAULT 0
     )`);
-  await pool.query("INSERT IGNORE INTO numeracion (serie, ultimo) VALUES ('FY', 0)");
+  await pool.query("INSERT INTO numeracion (serie, ultimo) VALUES ('FY', 0) ON CONFLICT (serie) DO NOTHING");
 
   await pool.query(`
     CREATE TABLE IF NOT EXISTS facturas (
@@ -52,7 +42,7 @@ async function initSchema() {
       procesado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`);
 
-  console.log('MySQL listo: tablas de facturación verificadas');
+  console.log('PostgreSQL listo: tablas de facturación verificadas');
 }
 
 module.exports = { pool, initSchema };

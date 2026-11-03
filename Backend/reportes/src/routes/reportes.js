@@ -31,7 +31,7 @@ router.get('/ventas-diarias', async (req, res) => {
   const [rows] = await pool.query(
     `SELECT fecha, total_ventas, cantidad_ventas
      FROM ventas_resumen_diario
-     WHERE fecha >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+     WHERE fecha >= CURRENT_DATE - (? * INTERVAL '1 day')
      ORDER BY fecha`,
     [dias]
   );

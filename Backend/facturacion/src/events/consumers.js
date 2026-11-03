@@ -32,14 +32,14 @@ async function onVentaConfirmada(event) {
 
     // 3. Número consecutivo: la fila queda bloqueada hasta el commit,
     //    así dos facturas simultáneas nunca reciben el mismo número
-    await conn.query('UPDATE numeracion SET ultimo = LAST_INSERT_ID(ultimo + 1) WHERE serie = ?', [SERIE]);
-    const [[{ n }]] = await conn.query('SELECT LAST_INSERT_ID() AS n');
+    await conn.query('UPDATE numeracion SET ultimo = ultimo + 1 WHERE serie = ?', [SERIE]);
+    const [[{ n }]] = await conn.query('SELECT ultimo AS n FROM numeracion WHERE serie = ?', [SERIE]);
     numero = `${SERIE}-${String(n).padStart(6, '0')}`;
 
     // 4. Guardar factura e ítems
     const [r] = await conn.query(
       `INSERT INTO facturas (numero, id_venta, cliente, vendedor, subtotal, impuesto, total)
-       VALUES (?,?,?,?,?,?,?)`,
+       VALUES (?,?,?,?,?,?,?) RETURNING id`,
       [numero, v.idVenta, v.cliente, v.vendedor, v.subtotal, v.impuesto, v.total]
     );
     idFactura = r.insertId;
