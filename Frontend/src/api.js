@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // Todo el frontend habla solo con el gateway
-export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+const configuredApiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+export const API_URL = configuredApiUrl.replace(/\/+$/, '');
 const CLAVE_TOKEN = 'yunque_token';
 
 const api = axios.create({ baseURL: `${API_URL}/api` });
